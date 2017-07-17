@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+# Author: Michael Devens
+# Github: https://github.com/co-devs
+# Simple, poorly written script to download all of the files being shared
+# by microsoft instead of downloading by hand. Downloads consecutively,
+# will therefore take a while. Could be optimized, but meh.
+# Also, download path is hardcoded. If you want to use it you will need
+# to change the baseDir variable at a minimum
 
 
 import os
@@ -70,13 +77,15 @@ for i in xrange(1, booksLen):
     # TODO: Debug print, remove or change to a progress meter
     # print 'Title: ', title
     links = bookData[2].select('a')
+    linkNum = 1
     for j in links:
         # TODO: Debug prints (x2), remove or change to a progress meter
         # print j['href']
-        print 'Downloading file ' + str(i) + '/' + str(booksLen) + ' to', titleDir
+        print 'Downloading book ' + str(i) + '/' + str(booksLen) + ', file ' + str(linkNum) + '/' + str(len(links)) + ' to', titleDir
         # TODO: Implement file download here. Download j['href']
         # Will first need to check if file is present or if we are being
         # redirected. We are likely being redirected and will need to download
         # from a different url
         link = j['href']
         downloadFile(downloadFile2(link), titleDir)
+        linkNum += 1
