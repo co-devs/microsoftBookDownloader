@@ -35,6 +35,8 @@ def downloadFile(url, path):
                 f.write(chunk)
     return local_filename
 
+errors = []
+
 res = requests.get('https://blogs.msdn.microsoft.com/mssmallbiz/2017/07/11/largest-free-microsoft-ebook-giveaway-im-giving-away-millions-of-free-microsoft-ebooks-again-including-windows-10-office-365-office-2016-power-bi-azure-windows-8-1-office-2013-sharepo/?ranMID=24542&ranEAID=lw9MynSeamY&ranSiteID=lw9MynSeamY-ljYIUif9JQSw6mGEPRE6hg&tduid=(35cd2ef014e03b4e91ddad36b13d5d02)(256380)(2459594)(lw9MynSeamY-ljYIUif9JQSw6mGEPRE6hg)(')
 res.raise_for_status()
 soup = bs4.BeautifulSoup(res.text, "lxml")
@@ -87,5 +89,13 @@ for i in xrange(1, booksLen):
         # redirected. We are likely being redirected and will need to download
         # from a different url
         link = j['href']
-        downloadFile(downloadFile2(link), titleDir)
+        try:
+            downloadFile(downloadFile2(link), titleDir)
+        except:
+            print "ERROR"
+            errors.append((category, title))
         linkNum += 1
+
+print '\n\nERROR REPORT:'
+for i in errors:
+    print i
