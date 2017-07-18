@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # Author: Michael Devens
+#         Derek Ditch <github:@dcode>
 # Github: https://github.com/co-devs
 # Simple, poorly written script to download all of the files being shared
 # by microsoft instead of downloading by hand. Downloads consecutively,
@@ -23,7 +24,7 @@ def downloadFile2(url):
 
 
 def downloadFile(url, path):
-    local_filename = path + url.split('/')[-1]
+    local_filename = os.path.join(path, url.split('/')[-1].title())
     # print url
     # print path
     # print local_filename
@@ -43,7 +44,7 @@ soup = bs4.BeautifulSoup(res.text, "lxml")
 
 # line = line.translate(None, '<>:\"/\|?*')
 badChars = '<>:\"/\|?*'
-baseDir = "C:\\Users\\mwill\\Documents\MicrosoftPubs\\"
+baseDir = "./"
 
 # file = open('file.html')
 # soup = bs4.BeautifulSoup(file, "lxml")
@@ -57,7 +58,7 @@ for i in xrange(1, booksLen):
 # for i in xrange(1, 5):
     bookData = books[i].select('td')
     category = bookData[0].getText().encode('ascii', 'ignore').translate(None, badChars)
-    catDir = baseDir + category + '\\'
+    catDir = os.path.join(baseDir, category)
     # Check to see if the folder for the category exists
     # if not, then make it
     try:
@@ -69,7 +70,7 @@ for i in xrange(1, booksLen):
     # TODO: Debug print, remove or change to a progress meter
     # print 'Category: ', category
     title = bookData[1].getText().encode('ascii', 'ignore').translate(None, badChars)
-    titleDir = catDir + title + '\\'
+    titleDir = os.path.join(catDir, title)
     try:
         os.stat(titleDir)
         # print titleDir, 'Exists'
